@@ -1435,7 +1435,7 @@ describe("one-pass minify of reads and calls on literals", () => {
 		expect(minifyOnePass(source, { compress: { pureGetters: true }, mangle: false }).code).toMatchSnapshot();
 		// false: every read but an optional one stays; a literal's `length` folds to a constant first.
 		expect(minifyOnePass(source, { compress: { pure_getters: false }, mangle: false }).code).toMatchSnapshot();
-		// A write target, a callee, `super`, a logical assignment, a nullish branch, a key running code and an optional read keep the member; what opens ambiguously keeps its parentheses.
+		// A write target, a callee, `super`, a logical assignment, a nullish branch and a key running code keep the member; an optional read ending a chain prints as its object; what opens ambiguously keeps its parentheses.
 		const kept = fixture("javascript", "one-pass-minify-of-reads-and-calls-on-literals-should-drop-only-the-reads-2");
 		expect(minifyOnePass(kept, { compress: { pure_getters: true }, mangle: false }).code).toMatchSnapshot();
 		expect(minifyOnePass(kept, { compress: { pure_getters: true, side_effects: false }, mangle: false }).code).toBe(minifyOnePass(kept, { compress: { side_effects: false }, mangle: false }).code);
